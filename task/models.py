@@ -15,13 +15,15 @@ class Task(models.Model):
     title = models.CharField()
     description = models.CharField()
     project = models.ForeignKey(Project , on_delete=models.CASCADE , related_name='tasks')
-    assigned_to = models.ManyToManyField(User, related_name='tasks')
+    assigned_to = models.ForeignKey(User,on_delete=models.SET_NULL ,null=True , related_name='tasks')
     STATUS = [
         ('DONE' , 'DONE') , ('PROCCESSING', 'PROCCESSING') , ('UNDONE' , 'UNDONE')
     ]
     status = models.CharField(max_length=12 , choices=STATUS , default='PROCCESSING')
     due_date = models.DateTimeField(blank=True , null=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    completed_at = models.DateTimeField(blank=True , null=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.title
